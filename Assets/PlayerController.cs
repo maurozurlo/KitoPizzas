@@ -60,12 +60,12 @@ public class PlayerController : MonoBehaviour
 			StartCoroutine(MoveTo(Lane.right));
 		}
 
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (Input.GetKeyDown(KeyCode.Keypad8))
 		{
 			Jump();
 		}
 
-		if (Input.GetKeyDown(KeyCode.C))
+		if (Input.GetKeyDown(KeyCode.Keypad2))
 		{
 			Crouch();
 		}
@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
 		Vector3 destination = Displacement(targetLane);
 		lane = targetLane;
 		float currentLerpTime = 0f;
-		float lerpTime = 0.1f; // You can adjust this value to make the movement faster or slower
+		float lerpTime = 0.8f; // You can adjust this value to make the movement faster or slower
 
 		Vector3 startingPosition = transform.localPosition;
 		targetPosition = destination + startingPosition;
