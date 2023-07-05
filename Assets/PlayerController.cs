@@ -30,6 +30,11 @@ public class PlayerController : MonoBehaviour
 
 	private bool isCrouching = false;
 
+	BoxCollider boxCollider;
+
+	// Player Art
+	public GameObject playerArt;
+	Animator animator;
 	
 
 	private void Start()
@@ -37,6 +42,8 @@ public class PlayerController : MonoBehaviour
 		rb = GetComponent<Rigidbody>();
 		transform.localPosition = Vector3.zero;
 		targetPosition = transform.localPosition;
+		boxCollider = GetComponent<BoxCollider>();
+		animator = playerArt.GetComponentInChildren<Animator>();
 	}
 
 
@@ -73,6 +80,10 @@ public class PlayerController : MonoBehaviour
 
 	private void Jump()
 	{
+		if (isCrouching)
+		{
+			Crouch();
+		}
 		rb.AddForce(Vector3.up * jumpForce);
 	}
 
@@ -80,17 +91,25 @@ public class PlayerController : MonoBehaviour
 	{
 		if (!isCrouching)
 		{
+			animator.SetBool("crouching", true);
 			// Crouch down
-			transform.localScale = new Vector3(1, crouchHeight / normalHeight, 1);
+			float newSize = boxCollider.size.y / 2;
+			boxCollider.size = new Vector3(boxCollider.size.x, newSize, boxCollider.size.z);
+			boxCollider.center = Vector3.zero;
+			//transform.localScale = new Vector3(1, crouchHeight / normalHeight, 1);
 			isCrouching = true;
-			transform.position -= new Vector3(0, .3f, 0);
+			//transform.position -= new Vector3(0, .3f, 0);
 		}
 		else
 		{
+			animator.SetBool("crouching", false);
 			// Stand up
-			transform.localScale = new Vector3(1, 1, 1);
+			//transform.localScale = new Vector3(1, 1, 1);
 			isCrouching = false;
-			transform.position += new Vector3(0, .3f, 0);
+			//transform.position += new Vector3(0, .3f, 0);
+			float newSize = boxCollider.size.y * 2;
+			boxCollider.size = new Vector3(boxCollider.size.x, newSize, boxCollider.size.z);
+			boxCollider.center = new Vector3(0,.4f,0);
 		}
 	}
 
